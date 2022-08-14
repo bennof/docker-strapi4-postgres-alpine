@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  postgres_db:
+    container_name: postgres
+    image: postgres:alpine
+    restart: unless-stopped
+    ports: 
+      - 5432:5432
+    volumes: 
+      - ./postgres:/var/lib/postgresql/data
+    env_file: .env
+    environment:
+      - POSTGRES_DB=$STRAPI4_DB_NAME
+      - POSTGRES_USER=$STRAPI4_DB_USER
+      - POSTGRES_PASSWORD=$STRAPI4_DB_PASS
+      
+  strapi4:
+    depends_on: 
+      - postgres_db
+    container_name: strapi4
+    build: .
+    restart: unless-stopped
+    ports: 
+      - 1337:1337
+    volumes: 
+      - ./strapi4:/srv/
+    env_file: .env
+    environment:
+      - DATABASE_CLIENT=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_HOST=postgres_db
+      - DATABASE_NAME=$STRAPI4_DB_NAME
+      - DATABASE_USER=$STRAPI4_DB_USER
+      - DATABASE_PASSWORD=$STRAPI4_DB_PASS
+
+
+  
