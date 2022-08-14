@@ -12,12 +12,13 @@ Solution using Strapi v4 with Docker. I was missing an simple small way to use S
 
 ## Docker Container
 
-a docker node container ist used with a startup script `docker-init.sh`. This script starts or installs strapi inside the container. The installation folder is exported. 
+a docker node container is used with a startup script `docker-init.sh`. This script starts or installs strapi inside the container. Installation folder is exported. 
 
 ## TODO
 
 * integrate letsencrypt to be automatically applied (script or nginx container mod)
 * nextjs and other (?) frontend helper
+* suggestions 
 
 ## Further Information
 
