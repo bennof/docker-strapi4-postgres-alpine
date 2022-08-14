@@ -18,9 +18,22 @@ if [ "$1" = "npm" ]; then
           --dbpassword=$DATABASE_PASSWORD \
           --dbssl=$DATABASE_SSL \
           $EXTRA_ARGS
+
+        if [ -n "$NGINX_URL" ]; then 
+            ed app/config/server.js <<EOF
+/port:
+a
+  url: $NGINX_URL,
+.
+wq
+
+EOF
+
+            cd app; npm run build
+        fi
     fi
 fi
 
 echo "Starting your strapi app..."
-chdir app
+chdir /srv/app
 exec "$@"

@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  postgres_db:
+    extends:
+      file: strapi4-postgres-compose.yml
+      service: postgres_db
+      
+  strapi4-nginx:
+    extends:
+      file: strapi4-postgres-compose.yml
+      service: strapi4
+    environment: 
+      - NGINX_URL="http://localhost:80/db"
+
+  webserver: 
+    depends_on:
+     - strapi4-nginx
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports: 
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/http:/etc/nginx/conf.d
+      
+

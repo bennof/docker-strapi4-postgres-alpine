@@ -14,12 +14,18 @@ Solution using Strapi v4 with Docker. I was missing an simple small way to use S
 
 a docker node container ist used with a startup script `docker-init.sh`. This script starts or installs strapi inside the container. The installation folder is exported. 
 
+## TODO
+
+* integrate letsencrypt to be automatically applied (script or nginx container mod)
+* nextjs and other (?) frontend helper
 
 ## Further Information
 
 ### Online
 (https://hub.docker.com/_/postgres)
+
 (https://docs.docker.com/compose/)
+
 (https://docs.strapi.io/developer-docs/latest/getting-started/quick-start.html)
 
 ### Terminal

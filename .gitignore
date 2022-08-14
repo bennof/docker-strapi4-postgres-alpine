@@ -1,2 +1,4 @@
 postgres
 strapi4
+nginx/certbot
+nginx/well-known

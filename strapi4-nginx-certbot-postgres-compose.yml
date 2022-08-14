@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  postgres_db:
+    extends:
+      file: strapi4-postgres-compose.yml
+      service: postgres_db
+      
+  strapi4-nginx:
+    extends:
+      file: strapi4-postgres-compose.yml
+      service: strapi4
+    environment: 
+      - NGINX_URL="https://www.mydomain/db"
+
+  webserver: 
+    depends_on:
+     - strapi4-nginx
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports: 
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/https:/etc/nginx/conf.d
+      - ./nginx/certbot:/etc/letsencrypt
+      - ./nginx/well-known:/var/www/letsencrypt
+      
+  certbot:
+    depends_on:
+      - webserver
+    image: certbot/certbot
+    container_name: certbot
+    env_file: .env
+    volumes:
+      - ./nginx/certbot:/etc/letsencrypt
+      - ./nginx/well-known:/var/www/letsencrypt
+    command: certonly --webroot --webroot-path=/var/www/letsencrypt --email your@email.com --non-interactive --agree-tos --no-eff-email -d mydomain.com -d www.mydomain.com
